@@ -15,13 +15,14 @@ router.post("/", async (req,res)=>{
     res.send(product)
 });
 
-router.get("/", (req, res) => {
-    productSchems.find()
-                 .then(items=>res.status(200).json(items))
+router.get("/",async (req, res) => {
+    const product = await productSchems.find().populate('category');
+    res.send(product);
 });
 
 router.getById = async (req,res) => {
-    const product = await productSchems.findById(req.params.id);
+    const product = await productSchems.findById(req.params.id)
+    .populate('category');
     if(!product){
         res.status(500).json({success:false});
     }
