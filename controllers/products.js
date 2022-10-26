@@ -18,6 +18,20 @@ router.post("/", async (req,res)=>{
 router.get("/", (req, res) => {
     productSchems.find()
                  .then(items=>res.status(200).json(items))
-})
+});
+
+router.getById = async (req,res) => {
+    const product = await productSchems.findById(req.params.id);
+    if(!product){
+        res.status(500).json({success:false});
+    }
+    res.send(product);
+}
+
+//get only name and image of products 
+router.getname = async (req,res) => {
+    const nameList = await productSchems.find().select('name image');
+    res.send(nameList);
+}
 
 module.exports = router;
