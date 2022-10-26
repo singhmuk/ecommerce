@@ -30,7 +30,7 @@ router.getById = async (req,res) => {
 
 //get only name and image of products 
 router.getname = async (req,res) => {
-    const nameList = await productSchems.find().select('name image');
+    const nameList = await productSchems.find().select('name image -_id');
     res.send(nameList);
 }
 
