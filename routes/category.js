@@ -54,6 +54,6 @@ router.put('/:id', async (req,res) => {
     if(!category)
         return res.status(400).send("Category cannot be updated");
     res.send(category);
-})
+});
 
 module.exports = router;

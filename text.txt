@@ -68,3 +68,6 @@ POST: localhost:5000/api/v1/orders
     "totalPrice":0,
     "user":"635a75b5770fab6cac5a2f0e"
 }
+
+PUT: localhost:5000/api/v1/orders/635ad53fc017c67041a4c171
+        { "status":"shipped" }
