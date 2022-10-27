@@ -43,3 +43,28 @@ POST: localhost:5000/api/v1/user
     "city":"63595eca6beeec99cf4e7692",
     "country":1
 }
+
+
+-----------------------//Order//------------------------
+POST: localhost:5000/api/v1/orders
+{
+    "orderItems":[
+        {
+            "quantity":3,
+            "product":"635967cbbbb92247a694c888"
+        },
+        {
+            "quantity":2,
+            "product":"635a294fd1acb6dc3a6aae5b"
+        }
+    ],
+    "shippingAddress1":"India",
+    "shippingAddress2":"USA",
+    "city":"city",
+    "zip":"12345",
+    "country":"India",
+    "phone":"1234567890",
+    "status":"Pending",
+    "totalPrice":0,
+    "user":"635a75b5770fab6cac5a2f0e"
+}
