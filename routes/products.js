@@ -3,12 +3,68 @@ const router = express.Router();
 const productSchems = require('../modules/products')
 const categorySchems = require('../modules/category');
 const mongoose = require('mongoose');
+const multer = require('multer');
 
-router.post("/", async (req,res)=>{
+const FILE_TYPE_MAP = {
+    'image/png':'png',
+    'image/jpeg':'jpeg',
+    'image/jpg':'jpg'
+}
+
+var storage = multer.diskStorage({
+    destination: function (req, file, cb){
+        const isValid = FILE_TYPE_MAP[file.mimetype];
+        let uploadError = new Error('invalid image type');
+
+        if(isValid){
+            uploadError = null;
+        }
+        cb(uploadError, '/public/uploads')
+    },
+    
+    filename: function(req,file,cb){
+        const fileName = file.originalname.split(' ').join('-');
+        const extension = FILE_TYPE_MAP[file.mimetype];
+        cb(null, `${fileName}-${Date.now()}.${extension}`)
+    }
+});
+
+const uploadOptions = multer({storage:storage});
+
+
+// router.post("/", async (req,res)=>{
+//     const category = await categorySchems.findById(req.body.category);
+//     if(!category) return res.status(400).send('Invalid Category')
+      
+//     const newProduct = new productSchems(req.body);
+//     product = await newProduct.save();
+
+//     if(!product)
+//         return res.status(500).send('Product not found');
+//     res.send(product)
+// });
+
+router.post("/", uploadOptions.single('image'), async (req,res)=>{
     const category = await categorySchems.findById(req.body.category);
     if(!category) return res.status(400).send('Invalid Category')
+    const filename = req.body.filename;
+    const basePath = `${req.protocol}://${req.get('host')}/public/upload/`;
+
+    let product = new productSchems({
+        name:req.body.name,
+        description:req.body.description ,
+        richDescription:req.body.richDescription,
+        image:`${basePath}${filename}`,
+        brand:req.body.brand ,
+        price:req.body.price,
+        category:req.body.category,
+        countInStock:req.body.countInStock ,
+        rating:req.body.rating,
+        numReviews:req.body.numReviews,
+        isFeatured:req.body.isFeatured ,
+    })
       
-    const newProduct = new productSchems(req.body);
+    // const newProduct = new productSchems(req.body);
     product = await newProduct.save();
 
     if(!product)

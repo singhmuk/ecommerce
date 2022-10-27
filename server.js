@@ -20,9 +20,9 @@ app.use(cors());
 app.options('*', cors());
 
 //middleware
-app.use(authJwt());
+// app.use(authJwt());
 
-const api = process.env.API_URL;
+const api = process.env.API_URL; 
 app.use(`${api}/products`, productRoures);
 app.use(`${api}/category`, categoryRoures);
 app.use(`${api}/users`, usertRoures);
