@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const userSchema = require('../modules/user')
 const bcrypt = require('bcryptjs');
-// const jwt = require('jsonwebtoken');
+const jwt = require('jsonwebtoken');
 
 
 router.post('/', async (req,res) => {
@@ -56,12 +56,16 @@ router.get('/userList', async (req,res) => {
 
 router.post("/login", async (req, res) => {
         const user = await userSchema.findOne({email: req.body.email})
+        const secret = process.env.secret;
+
         if(!user){
             return res.status(400).send('The user not found')
         }
 
         if(user && bcrypt.compareSync(req.body.password, user.password)){
-            res.status(200).send("User Authenticated")
+            const token = jwt.sign({userId: user.id}, secret, {expiresIn: '1d'})
+
+            res.status(200).send({user: user.email, token: token})
         }else{
             res.status(200).send('Password is wrong');
         }
