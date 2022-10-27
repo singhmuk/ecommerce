@@ -1,3 +1,6 @@
+cont documents
+list data see admin
+
 Category (POST): localhost:5000/api/v1/products
  {
     "name":"6358f62a4a923146538c4626",
@@ -8,3 +11,20 @@ Category (POST): localhost:5000/api/v1/products
     "countInStock":1,
     "rating":"6358f62a4a923146538c4626"
 }
+
+
+Category (GET): localhost:5000/api/v1/products/635967cbbbb92247a694c888
+
+
+Product (PUT): localhost:5000/api/v1/products/635967cbbbb92247a694c888
+{
+    "name":"productSchema new",
+    "description":"Icon",
+    "image":"colors",
+    "category":"63595eca6beeec99cf4e7692",
+    "countInStock":10
+}
+
+Product (PUT): localhost:5000/api/v1/products/635967cbbbb92247a694c8882
+o/p: Invalid Product Id
+

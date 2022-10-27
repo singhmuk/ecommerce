@@ -1,7 +1,8 @@
 const express = require('express');
 const router = express.Router();
 const productSchems = require('../modules/products')
-const categorySchems = require('../modules/category')
+const categorySchems = require('../modules/category');
+const mongoose = require('mongoose');
 
 router.post("/", async (req,res)=>{
     const category = await categorySchems.findById(req.body.category);
@@ -35,4 +36,59 @@ router.getname = async (req,res) => {
     res.send(nameList);
 }
 
+router.updates = async (req,res) => {
+    if(!mongoose.isValidObjectId(req.params.id)){
+        res.status(400).send('Invalid Product Id')
+    }
+    const category = await categorySchems.findById(req.body.category);
+    if(!category) return res.status(400).send('Invalid Category')
+
+    const product = await productSchems.findByIdAndUpdate(req.params.id, {
+        name:req.body.name,
+        description:req.body.description ,
+        richDescription:req.body.richDescription,
+        image:req.body.image,
+        brand:req.body.brand ,
+        price:req.body.price,
+        category:req.body.category,
+        countInStock:req.body.countInStock ,
+        rating:req.body.rating,
+        numReviews:req.body.numReviews,
+        isFeatured:req.body.isFeatured ,
+    },{new: true});
+
+    if(!product) 
+        return res.status(500).send('Product cannot be updated')
+    res.send(product)
+}
+
+router.delete('/:id', (req,res) => {
+    productSchems.findByIdAndRemove(req.params.id)
+        .then(product=>{
+            if(product){
+                return res.status(200).json('Product deleted')
+            }else{
+                return res.status(404).json({success:false, message:'Product not found'})
+            }
+        }).catch(err=>{
+            return res.status(400).json({success:false, error:err});
+        })
+});
+
+router.getDocs = async (req,res) => {
+    const productCount = await productSchems.countDocuments((count)=>count)
+    if(!productCount){
+        res.status(500).json({success:false});
+    }
+    res.send({productCount:productCount});
+}
+
+router.getFeatures = async (req,res) => {
+    const product = await productSchems.find({isFeatured:true})
+    if(!product){
+        res.status(500).json({success:false});
+    }
+    res.send(product);
+}
+ 
 module.exports = router;

@@ -17,6 +17,16 @@ const productSchema = new Schema({
     numReviews:{type:Number, default:0},
     isFeatured:{type:Boolean, default:false},
     dateCreated:{type:Date, default:Date.now},
+});
+
+
+//create product without _id
+productSchema.virtual('id').get(function (){
+    return this._id.toHexString();
+});
+
+productSchema.set('toJSON', {
+    virtuals: true
 })
 
 
