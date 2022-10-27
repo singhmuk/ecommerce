@@ -25,8 +25,8 @@ app.use(authJwt());
 const api = process.env.API_URL;
 app.use(`${api}/products`, productRoures);
 app.use(`${api}/category`, categoryRoures);
-app.use(`${api}/user`, usertRoures);
-app.use(`${api}/order`, orderRoures);
+app.use(`${api}/users`, usertRoures);
+app.use(`${api}/orders`, orderRoures);
 
 const port = process.env.PORT;
 

@@ -75,7 +75,7 @@ router.delete('/:id', (req,res) => {
         })
 });
 
-router.get("/getDocs",async (req, res) => {
+router.get("/get/count",async (req, res) => {
     const productCount = await productSchems.countDocuments((count)=>count)
     if(!productCount){
         res.status(500).json({success:false});
@@ -83,7 +83,7 @@ router.get("/getDocs",async (req, res) => {
     res.send({productCount:productCount});
 });
 
-router.get("/getFeatures",async (req, res) => {
+router.get("/get/features",async (req, res) => {
     const product = await productSchems.find({isFeatured:true})
     if(!product){
         res.status(500).json({success:false});
@@ -92,7 +92,7 @@ router.get("/getFeatures",async (req, res) => {
 });
 
 //localhost:5000/api/v1/products/getFeatures/2
-router.get("/getFeatures/:count",async (req, res) => {
+router.get("/get/features/:count",async (req, res) => {
     const count = req.params.count ? req.params.count : 0
     const product = await productSchems.find({isFeatured:true}).limit(+count)
     if(!product){

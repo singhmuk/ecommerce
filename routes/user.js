@@ -75,4 +75,26 @@ router.post("/login", async (req, res) => {
         }
 })
 
+//counr users
+router.get("/get/count",async (req, res) => {
+    const userCount = await userSchema.countDocuments((count)=>count)
+    if(!userCount){
+        res.status(500).json({success:false});
+    }
+    res.send({userCount:userCount});
+});
+
+router.delete('/:id', (req,res) => {
+    userSchema.findByIdAndRemove(req.params.id)
+        .then(user=>{
+            if(user){
+                return res.status(200).json('User deleted')
+            }else{
+                return res.status(404).json({success:false, message:'User not found'})
+            }
+        }).catch(err=>{
+            return res.status(400).json({success:false, error:err});
+        })
+});
+
 module.exports = router;
