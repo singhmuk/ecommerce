@@ -28,3 +28,18 @@ Product (PUT): localhost:5000/api/v1/products/635967cbbbb92247a694c888
 Product (PUT): localhost:5000/api/v1/products/635967cbbbb92247a694c8882
 o/p: Invalid Product Id
 
+
+----------------------------//User//-------------------------------
+POST: localhost:5000/api/v1/user
+{
+    "name":"User",
+    "email":"user@gmail.com",
+    "passwordHash":"123456",
+    "phone":"image",
+    "isAdmin":true,
+    "street":1,
+    "apartment":"1",
+    "zip":"image",
+    "city":"63595eca6beeec99cf4e7692",
+    "country":1
+}
