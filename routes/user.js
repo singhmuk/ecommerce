@@ -5,7 +5,7 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
 
-router.post('/', async (req,res) => {
+router.post('/register', async (req,res) => {
     const salt = await bcrypt.genSalt(10);
     const hashedPass = await bcrypt.hash(req.body.password, salt)
 
@@ -63,7 +63,11 @@ router.post("/login", async (req, res) => {
         }
 
         if(user && bcrypt.compareSync(req.body.password, user.password)){
-            const token = jwt.sign({userId: user.id}, secret, {expiresIn: '1d'})
+            const token = jwt.sign({
+                userId: user.id,
+                isAdmin: user.isAdmin
+            }, 
+            secret, {expiresIn: '1d'})
 
             res.status(200).send({user: user.email, token: token})
         }else{

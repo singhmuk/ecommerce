@@ -8,6 +8,7 @@ const productRoures = require('./routes/products');
 const categoryRoures = require('./routes/category');
 const usertRoures = require('./routes/user');
 const orderRoures = require('./routes/order');
+const authJwt = require('./helpers/jwt_auth');
 
 
 dbConn;
@@ -17,6 +18,9 @@ app.use(express.urlencoded({extended:true}));
 app.use(morgan('tiny'));
 app.use(cors());
 app.options('*', cors());
+
+//middleware
+app.use(authJwt());
 
 const api = process.env.API_URL;
 app.use(`${api}/products`, productRoures);
